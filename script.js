@@ -18,13 +18,26 @@ const game = () => {
   // Play Match
   const playMatch = () => {
     const options = document.querySelectorAll('.options button');
+    const playAgainBtn = document.querySelector('.play-again-btn');
     const playerHand = document.querySelector('.player-hand');
     const computerHand = document.querySelector('.computer-hand');
     const playerChoiceText = document.querySelector('.player-choice-text');
     const computerChoiceText = document.querySelector('.computer-choice-text');
     const winner = document.querySelector('.winner');
+    const optionsDiv = document.querySelector('.options');
 
     const computerOptions = ['rock', 'paper', 'scissors'];
+
+    // Play Again button resets the round
+    playAgainBtn.addEventListener('click', () => {
+      playerHand.classList.remove('show');
+      computerHand.classList.remove('show');
+      playerChoiceText.textContent = '';
+      computerChoiceText.textContent = '';
+      winner.textContent = 'Choose an option';
+      playAgainBtn.style.display = 'none';
+      optionsDiv.style.display = 'flex';
+    });
 
     options.forEach(option => {
       option.addEventListener('click', function() {
@@ -32,31 +45,36 @@ const game = () => {
         const computerChoice = computerOptions[computerNumber];
         const playerChoice = this.textContent;
 
-        // Reset everything for new round
+        // Hide options while round plays out
+        optionsDiv.style.display = 'none';
+        playAgainBtn.style.display = 'none';
+
+        // Reset images
         playerHand.classList.remove('show');
         computerHand.classList.remove('show');
         winner.textContent = '...';
         playerChoiceText.textContent = '';
         computerChoiceText.textContent = '';
 
-        // Step 1 — show player choice after short delay
+        // Step 1 — show player choice
         setTimeout(() => {
           playerHand.src = `${playerChoice}.png`;
           playerChoiceText.textContent = playerChoice;
           playerHand.classList.add('show');
         }, 500);
 
-        // Step 2 — show computer choice after another delay
+        // Step 2 — show computer choice
         setTimeout(() => {
           computerHand.src = `${computerChoice}.png`;
           computerChoiceText.textContent = computerChoice;
           computerHand.classList.add('show');
         }, 1500);
 
-        // Step 3 — show result
+        // Step 3 — show result and play again button
         setTimeout(() => {
           compareHands(playerChoice, computerChoice);
           updateScore();
+          playAgainBtn.style.display = 'block';
         }, 2500);
 
       });
@@ -76,10 +94,10 @@ const game = () => {
     // Rock
     if (playerChoice === 'rock') {
       if (computerChoice === 'scissors') {
-        winner.textContent = 'Player wins!';
+        winner.textContent = 'You Won!';
         pScore++;
       } else {
-        winner.textContent = 'Computer wins!';
+        winner.textContent = 'You Lost!';
         cScore++;
       }
       return;
@@ -88,10 +106,10 @@ const game = () => {
     // Paper
     if (playerChoice === 'paper') {
       if (computerChoice === 'scissors') {
-        winner.textContent = 'Computer wins!';
+        winner.textContent = 'You Lost!';
         cScore++;
       } else {
-        winner.textContent = 'Player wins!';
+        winner.textContent = 'You Won!';
         pScore++;
       }
       return;
@@ -100,10 +118,10 @@ const game = () => {
     // Scissors
     if (playerChoice === 'scissors') {
       if (computerChoice === 'rock') {
-        winner.textContent = 'Computer wins!';
+        winner.textContent = 'You Lost!';
         cScore++;
       } else {
-        winner.textContent = 'Player wins!';
+        winner.textContent = 'You Won!';
         pScore++;
       }
       return;
