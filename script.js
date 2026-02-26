@@ -20,15 +20,11 @@ const game = () => {
     const options = document.querySelectorAll('.options button');
     const playerHand = document.querySelector('.player-hand');
     const computerHand = document.querySelector('.computer-hand');
+    const playerChoiceText = document.querySelector('.player-choice-text');
+    const computerChoiceText = document.querySelector('.computer-choice-text');
+    const winner = document.querySelector('.winner');
 
     const computerOptions = ['rock', 'paper', 'scissors'];
-
-    const hands = document.querySelectorAll('.hands img');
-    hands.forEach(hand => {
-      hand.addEventListener('animationend', function() {
-        this.style.animation = '';
-      });
-    });
 
     options.forEach(option => {
       option.addEventListener('click', function() {
@@ -36,20 +32,33 @@ const game = () => {
         const computerChoice = computerOptions[computerNumber];
         const playerChoice = this.textContent;
 
-        // Animate hands
-        playerHand.style.animation = 'shakePlayer 2s ease';
-        computerHand.style.animation = 'shakeComputer 2s ease';
+        // Reset everything for new round
+        playerHand.classList.remove('show');
+        computerHand.classList.remove('show');
+        winner.textContent = '...';
+        playerChoiceText.textContent = '';
+        computerChoiceText.textContent = '';
 
-        // Delay updates until animation finishes
+        // Step 1 — show player choice after short delay
         setTimeout(() => {
-          // Update images to matching rock/paper/scissors png
           playerHand.src = `${playerChoice}.png`;
-          computerHand.src = `${computerChoice}.png`;
+          playerChoiceText.textContent = playerChoice;
+          playerHand.classList.add('show');
+        }, 500);
 
-          // Compare and update score
+        // Step 2 — show computer choice after another delay
+        setTimeout(() => {
+          computerHand.src = `${computerChoice}.png`;
+          computerChoiceText.textContent = computerChoice;
+          computerHand.classList.add('show');
+        }, 1500);
+
+        // Step 3 — show result
+        setTimeout(() => {
           compareHands(playerChoice, computerChoice);
           updateScore();
-        }, 2000);
+        }, 2500);
+
       });
     });
   };
