@@ -42,14 +42,14 @@ const game = () => {
 
         // Delay updates until animation finishes
         setTimeout(() => {
-          // Update images
-          playerHand.src = `assets/${playerChoice}.png`;
-          computerHand.src = `assets/${computerChoice}.png`;
+  // Update images
+  playerHand.src = 'fist_bump.png';
+  computerHand.src = 'computer_mouse.png';
 
-          // Compare and update score
-          compareHands(playerChoice, computerChoice);
-          updateScore();
-        }, 2000);
+  // Compare and update score
+  compareHands(playerChoice, computerChoice);
+  updateScore();
+}, 2000);
       });
     });
   };
